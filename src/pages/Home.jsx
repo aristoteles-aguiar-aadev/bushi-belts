@@ -230,7 +230,13 @@ export default function Home() {
       <footer className="border-t border-white/10 px-6 py-10 text-sm text-zinc-500 lg:px-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <div className="font-serif text-xl text-white">Bushi Belts</div>
+            <div className="header-logo mb-2 flex items-center gap-3">
+              <img
+                src="./src/assets/logo/bushi-belts.png"
+                alt="Bushi Belts"
+                className="h-16 w-16"
+              />
+            </div>
             <div className="mt-1">
               Faixas artesanais para quem leva a jornada a sério.
             </div>

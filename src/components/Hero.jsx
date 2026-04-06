@@ -47,14 +47,18 @@ export default function Hero({
       <header className="sticky top-0 z-40 border-b border-white/10 bg-neutral-950/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
           <div className="flex items-center gap-3">
-            <div className="font-serif text-3xl font-bold text-amber-400">
+            {/* <div className="font-serif text-3xl font-bold text-amber-400">
               武
-            </div>
+            </div> */}
             <div>
-              <div className="font-serif text-lg tracking-[0.18em]">
-                BUSHI BELTS
+              <div className="header-logo m-0 flex items-center gap-3">
+                <img
+                  src="./src/assets/logo/bushi-belts.png"
+                  alt="Bushi Belts"
+                  className="h-48 w-48"
+                />
               </div>
-              <div className="text-[10px] uppercase tracking-[0.35em] text-zinc-400">
+              <div className="text-[10px] m-auto items-center uppercase tracking-[0.35em] text-zinc-400">
                 Faixas artesanais premium
               </div>
             </div>

@@ -1,0 +1,16 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "../bushi-belts-old"
+	},
+	{
+		"path": "../ct-vieira-brothers"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "ct-vieira-brothers"
+  }
+}
