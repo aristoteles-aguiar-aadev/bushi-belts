@@ -232,7 +232,7 @@ export default function Home() {
           <div>
             <div className="header-logo mb-2 flex items-center gap-3">
               <img
-                src="./src/assets/logo/bushi-belts.png"
+                src="/logo/bushi-belts.png"
                 alt="Bushi Belts"
                 className="h-16 w-16"
               />

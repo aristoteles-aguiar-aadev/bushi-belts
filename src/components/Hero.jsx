@@ -53,7 +53,7 @@ export default function Hero({
             <div>
               <div className="header-logo m-0 flex items-center gap-3">
                 <img
-                  src="./src/assets/logo/bushi-belts.png"
+                  src="/logo/bushi-belts.png"
                   alt="Bushi Belts"
                   className="h-48 w-48"
                 />
