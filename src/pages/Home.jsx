@@ -241,8 +241,37 @@ export default function Home() {
               Faixas artesanais para quem leva a jornada a sério.
             </div>
           </div>
-          <div className="text-zinc-400">
-            Backend Node.js + Mercado Pago ready
+          <div className="footer-center">
+            <p className="footer-copy">
+              © 2026 Bushi Belts. Todos os direitos reservados.
+            </p>
+            <p className="footer-dev">
+              <a
+                href="https://devlabdigital.com.br"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Acessar site da Dev Lab"
+                className="footer-dev-link w-20 h-10 ml-2"
+              >
+                <span>Site desenvolvido por:</span>
+                <img
+                  src="public/logo/devlab-black-rb.png"
+                  alt="Dev Lab"
+                  className="footer-dev-logo max-w-30 h-10 align-center object-contain"
+                />
+              </a>
+            </p>
+            <div
+              className="footer-dev-link"
+              style={{
+                fontSize: "0.7rem",
+                color: "var(--text-muted)",
+                margin: 0,
+              }}
+            >
+              Criação de sites profissionais para empresas que querem vender
+              mais
+            </div>
           </div>
         </div>
       </footer>
