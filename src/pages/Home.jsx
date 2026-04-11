@@ -255,7 +255,7 @@ export default function Home() {
               >
                 <span>Site desenvolvido por:</span>
                 <img
-                  src="public/logo/devlab-black-rb.png"
+                  src="logo/devlab-black-rb.png"
                   alt="Dev Lab"
                   className="footer-dev-logo max-w-30 h-10 align-center object-contain"
                 />
