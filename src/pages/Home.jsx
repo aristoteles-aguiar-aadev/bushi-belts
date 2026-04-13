@@ -6,84 +6,131 @@ import CartDrawer from "../components/CartDrawer";
 import CheckoutModal from "../components/CheckoutModal";
 import { useCartStore } from "../store/cartStore";
 
-const belts = [
-  {
-    id: "white",
-    name: "Branca",
-    level: "Iniciante",
-    color: "#F3EFE7",
-    accent: "#D7D0C1",
-    price: 89.9,
-    maxStripes: 4,
-    tagline: "O começo da jornada.",
+const catalog = {
+  kids: {
+    label: "Kids",
+    belts: [
+      {
+        id: "kids-white",
+        name: "Branca",
+        level: "Kids Iniciante",
+        color: "#F3EFE7",
+        accent: "#D7D0C1",
+        price: 79.9,
+        maxStripes: 4,
+        tagline: "O começo da jornada infantil.",
+      },
+      {
+        id: "kids-gray",
+        name: "Cinza",
+        level: "Kids Evolução",
+        color: "#8C8C8C",
+        accent: "#5F5F5F",
+        price: 89.9,
+        maxStripes: 4,
+        tagline: "Primeiros passos com disciplina.",
+      },
+      {
+        id: "kids-yellow",
+        name: "Amarela",
+        level: "Kids Intermediária",
+        color: "#D6B400",
+        accent: "#A38800",
+        price: 99.9,
+        maxStripes: 4,
+        tagline: "Confiança e crescimento no tatame.",
+      },
+      {
+        id: "kids-orange",
+        name: "Laranja",
+        level: "Kids Avanço",
+        color: "#E67E22",
+        accent: "#B85E12",
+        price: 109.9,
+        maxStripes: 4,
+        tagline: "Energia, foco e evolução.",
+      },
+      {
+        id: "kids-green",
+        name: "Verde",
+        level: "Kids Destaque",
+        color: "#2E8B57",
+        accent: "#1F5F3B",
+        price: 119.9,
+        maxStripes: 4,
+        tagline: "Mais maturidade e técnica.",
+      },
+    ],
+    sizes: ["M0", "M1", "M2", "M3"],
   },
-  {
-    id: "blue",
-    name: "Azul",
-    level: "Fundamentos",
-    color: "#224C8F",
-    accent: "#173666",
-    price: 119.9,
-    maxStripes: 4,
-    tagline: "Base técnica com identidade.",
-  },
-  {
-    id: "purple",
-    name: "Roxa",
-    level: "Evolução",
-    color: "#64359B",
-    accent: "#47256E",
-    price: 139.9,
-    maxStripes: 4,
-    tagline: "Refinamento, visão e controle.",
-  },
-  {
-    id: "brown",
-    name: "Marrom",
-    level: "Maestria",
-    color: "#6D4123",
-    accent: "#4A2C15",
-    price: 159.9,
-    maxStripes: 4,
-    tagline: "Próximo do topo.",
-  },
-  {
-    id: "black",
-    name: "Preta",
-    level: "Excelência",
-    color: "#1D1D1D",
-    accent: "#000000",
-    price: 219.9,
-    maxStripes: 6,
-    tagline: "Respeito conquistado no tatame.",
-  },
-  {
-    id: "red",
-    name: "Vermelha",
-    level: "Legado",
-    color: "#8C1F1F",
-    accent: "#5D1212",
-    price: 349.9,
-    maxStripes: 0,
-    tagline: "Um símbolo de história e honra.",
-  },
-];
 
-const sizes = [
-  "A0",
-  "A1",
-  "A2",
-  "A3",
-  "A4",
-  "A5",
-  "M0",
-  "M1",
-  "M2",
-  "M3",
-  "F1",
-  "F2",
-  "F3",
-];
+  adult: {
+    label: "Adulto",
+    belts: [
+      {
+        id: "adult-white",
+        name: "Branca",
+        level: "Iniciante",
+        color: "#F3EFE7",
+        accent: "#D7D0C1",
+        price: 89.9,
+        maxStripes: 4,
+        tagline: "O começo da jornada.",
+      },
+      {
+        id: "adult-blue",
+        name: "Azul",
+        level: "Fundamentos",
+        color: "#224C8F",
+        accent: "#173666",
+        price: 119.9,
+        maxStripes: 4,
+        tagline: "Base técnica com identidade.",
+      },
+      {
+        id: "adult-purple",
+        name: "Roxa",
+        level: "Evolução",
+        color: "#64359B",
+        accent: "#47256E",
+        price: 139.9,
+        maxStripes: 4,
+        tagline: "Refinamento, visão e controle.",
+      },
+      {
+        id: "adult-brown",
+        name: "Marrom",
+        level: "Maestria",
+        color: "#6D4123",
+        accent: "#4A2C15",
+        price: 159.9,
+        maxStripes: 4,
+        tagline: "Próximo do topo.",
+      },
+      {
+        id: "adult-black",
+        name: "Preta",
+        level: "Excelência",
+        color: "#1D1D1D",
+        accent: "#000000",
+        price: 219.9,
+        maxStripes: 6,
+        tagline: "Respeito conquistado no tatame.",
+      },
+      {
+        id: "adult-red",
+        name: "Vermelha",
+        level: "Legado",
+        color: "#8C1F1F",
+        accent: "#5D1212",
+        price: 349.9,
+        maxStripes: 0,
+        tagline: "Um símbolo de história e honra.",
+      },
+    ],
+    sizes: ["A0", "A1", "A2", "A3", "A4"],
+  },
+};
 
 const threadColors = [
   { id: "gold", name: "Dourado", hex: "#D4A832" },
@@ -95,8 +142,14 @@ const threadColors = [
 ];
 
 export default function Home() {
-  const [selectedBelt, setSelectedBelt] = useState(belts[1]);
-  const [selectedSize, setSelectedSize] = useState("A2");
+  const [category, setCategory] = useState("adult");
+
+  const activeCatalog = catalog[category];
+  const belts = activeCatalog.belts;
+  const sizes = activeCatalog.sizes;
+
+  const [selectedBelt, setSelectedBelt] = useState(catalog.adult.belts[0]);
+  const [selectedSize, setSelectedSize] = useState(catalog.adult.sizes[0]);
   const [selectedStripes, setSelectedStripes] = useState(0);
   const [name, setName] = useState("");
   const [academy, setAcademy] = useState("");
@@ -107,6 +160,15 @@ export default function Home() {
 
   const { items, addItem, removeItem, clearCart } = useCartStore();
 
+  function handleChangeCategory(newCategory) {
+    const nextCatalog = catalog[newCategory];
+
+    setCategory(newCategory);
+    setSelectedBelt(nextCatalog.belts[0]);
+    setSelectedSize(nextCatalog.sizes[0]);
+    setSelectedStripes(0);
+  }
+
   const embroideryExtra = name.trim() ? 15 : 0;
   const unitPrice = selectedBelt.price + embroideryExtra;
   const total = unitPrice * qty;
@@ -115,6 +177,7 @@ export default function Home() {
     () => items.reduce((sum, item) => sum + item.total, 0),
     [items],
   );
+
   const cartCount = useMemo(
     () => items.reduce((sum, item) => sum + item.qty, 0),
     [items],
@@ -123,6 +186,7 @@ export default function Home() {
   function handleAddToCart() {
     addItem({
       id: crypto.randomUUID(),
+      category,
       belt: selectedBelt,
       size: selectedSize,
       stripes: selectedStripes,
@@ -149,9 +213,36 @@ export default function Home() {
         academy={academy}
       />
 
+      <section className="px-6 pt-8 lg:px-10">
+        <div className="mx-auto flex max-w-7xl gap-3">
+          <button
+            onClick={() => handleChangeCategory("kids")}
+            className={`rounded-full px-5 py-2 text-sm font-medium transition ${
+              category === "kids"
+                ? "bg-amber-400 text-black"
+                : "border border-white/10 bg-white/5 text-zinc-300"
+            }`}
+          >
+            Faixas Kids
+          </button>
+
+          <button
+            onClick={() => handleChangeCategory("adult")}
+            className={`rounded-full px-5 py-2 text-sm font-medium transition ${
+              category === "adult"
+                ? "bg-amber-400 text-black"
+                : "border border-white/10 bg-white/5 text-zinc-300"
+            }`}
+          >
+            Faixas Adultas
+          </button>
+        </div>
+      </section>
+
       <BeltSelector
         belts={belts}
         selectedBelt={selectedBelt}
+        category={category}
         onSelectBelt={(belt) => {
           setSelectedBelt(belt);
           setSelectedStripes(0);
@@ -178,6 +269,30 @@ export default function Home() {
         embroideryExtra={embroideryExtra}
         total={total}
         onAddToCart={handleAddToCart}
+      />
+
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        items={items}
+        cartCount={cartCount}
+        cartTotal={cartTotal}
+        onRemoveItem={removeItem}
+        onCheckout={() => {
+          setCartOpen(false);
+          setCheckoutOpen(true);
+        }}
+      />
+
+      <CheckoutModal
+        open={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+        items={items}
+        total={cartTotal}
+        onSuccess={() => {
+          clearCart();
+          setCheckoutOpen(false);
+        }}
       />
 
       <section
@@ -275,30 +390,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      <CartDrawer
-        open={cartOpen}
-        onClose={() => setCartOpen(false)}
-        items={items}
-        cartCount={cartCount}
-        cartTotal={cartTotal}
-        onRemoveItem={removeItem}
-        onCheckout={() => {
-          setCartOpen(false);
-          setCheckoutOpen(true);
-        }}
-      />
-
-      <CheckoutModal
-        open={checkoutOpen}
-        onClose={() => setCheckoutOpen(false)}
-        items={items}
-        total={cartTotal}
-        onSuccess={() => {
-          clearCart();
-          setCheckoutOpen(false);
-        }}
-      />
     </div>
   );
 }

@@ -78,7 +78,10 @@ export default function CartDrawer({
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="font-serif text-xl text-white">
-                        Faixa {item.belt.name}
+                        {item.category === "kids"
+                          ? "Faixa Kids"
+                          : "Faixa Adulta"}{" "}
+                        {item.belt.name}
                       </div>
                       <div className="mt-2">
                         <BeltBar
