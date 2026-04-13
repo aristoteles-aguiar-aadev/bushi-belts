@@ -128,7 +128,7 @@ const catalog = {
         tagline: "Um símbolo de história e honra.",
       },
     ],
-    sizes: ["A0", "A1", "A2", "A3", "A4"],
+    sizes: ["A0", "A1", "A2", "A3", "A4", "A5", "F1", "F2", "F3"],
   },
 };
 
@@ -141,6 +141,12 @@ const threadColors = [
   { id: "black", name: "Preto", hex: "#111111" },
 ];
 
+const kidsVariants = [
+  { id: "white", label: "Branca", accent: "#FFFFFF" },
+  { id: "solid", label: "Padrão", accent: null },
+  { id: "black", label: "Preta", accent: "#111111" },
+];
+
 export default function Home() {
   const [category, setCategory] = useState("adult");
 
@@ -151,6 +157,7 @@ export default function Home() {
   const [selectedBelt, setSelectedBelt] = useState(catalog.adult.belts[0]);
   const [selectedSize, setSelectedSize] = useState(catalog.adult.sizes[0]);
   const [selectedStripes, setSelectedStripes] = useState(0);
+  const [selectedKidsVariant, setSelectedKidsVariant] = useState("solid");
   const [name, setName] = useState("");
   const [academy, setAcademy] = useState("");
   const [threadColor, setThreadColor] = useState(threadColors[0]);
@@ -160,17 +167,36 @@ export default function Home() {
 
   const { items, addItem, removeItem, clearCart } = useCartStore();
 
-  function handleChangeCategory(newCategory) {
-    const nextCatalog = catalog[newCategory];
+  const isKids = category === "kids";
+  const isKidsWhiteBelt = selectedBelt.id === "kids-white";
+  const showKidsVariantSelector = isKids && !isKidsWhiteBelt;
 
-    setCategory(newCategory);
-    setSelectedBelt(nextCatalog.belts[0]);
-    setSelectedSize(nextCatalog.sizes[0]);
-    setSelectedStripes(0);
-  }
+  const displayBelt = useMemo(() => {
+    if (!isKids) return selectedBelt;
+    if (isKidsWhiteBelt) return selectedBelt;
+    if (selectedKidsVariant === "solid") return selectedBelt;
+
+    const accent =
+      selectedKidsVariant === "white"
+        ? "#FFFFFF"
+        : selectedKidsVariant === "black"
+          ? "#111111"
+          : selectedBelt.accent;
+
+    const variantName =
+      selectedKidsVariant === "white"
+        ? `${selectedBelt.name} e Branca`
+        : `${selectedBelt.name} e Preta`;
+
+    return {
+      ...selectedBelt,
+      accent,
+      name: variantName,
+    };
+  }, [isKids, isKidsWhiteBelt, selectedBelt, selectedKidsVariant]);
 
   const embroideryExtra = name.trim() ? 15 : 0;
-  const unitPrice = selectedBelt.price + embroideryExtra;
+  const unitPrice = displayBelt.price + embroideryExtra;
   const total = unitPrice * qty;
 
   const cartTotal = useMemo(
@@ -183,11 +209,29 @@ export default function Home() {
     [items],
   );
 
+  function handleChangeCategory(newCategory) {
+    const nextCatalog = catalog[newCategory];
+
+    setCategory(newCategory);
+    setSelectedBelt(nextCatalog.belts[0]);
+    setSelectedSize(nextCatalog.sizes[0]);
+    setSelectedStripes(0);
+    setSelectedKidsVariant("solid");
+  }
+
+  function handleSelectBelt(belt) {
+    setSelectedBelt(belt);
+    setSelectedStripes(0);
+    setSelectedKidsVariant("solid");
+  }
+
   function handleAddToCart() {
     addItem({
       id: crypto.randomUUID(),
       category,
-      belt: selectedBelt,
+      kidsVariant: isKids && !isKidsWhiteBelt ? selectedKidsVariant : null,
+      belt: displayBelt,
+      baseBeltId: selectedBelt.id,
       size: selectedSize,
       stripes: selectedStripes,
       name,
@@ -206,7 +250,7 @@ export default function Home() {
       <Hero
         cartCount={cartCount}
         onOpenCart={() => setCartOpen(true)}
-        selectedBelt={selectedBelt}
+        selectedBelt={displayBelt}
         selectedStripes={selectedStripes}
         threadColor={threadColor}
         name={name}
@@ -214,28 +258,87 @@ export default function Home() {
       />
 
       <section className="px-6 pt-8 lg:px-10">
-        <div className="mx-auto flex max-w-7xl gap-3">
-          <button
-            onClick={() => handleChangeCategory("kids")}
-            className={`rounded-full px-5 py-2 text-sm font-medium transition ${
-              category === "kids"
-                ? "bg-amber-400 text-black"
-                : "border border-white/10 bg-white/5 text-zinc-300"
-            }`}
-          >
-            Faixas Kids
-          </button>
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-amber-400">
+            <span className="h-px w-8 bg-amber-400" />
+            Escolha a categoria
+          </div>
 
-          <button
-            onClick={() => handleChangeCategory("adult")}
-            className={`rounded-full px-5 py-2 text-sm font-medium transition ${
-              category === "adult"
-                ? "bg-amber-400 text-black"
-                : "border border-white/10 bg-white/5 text-zinc-300"
-            }`}
-          >
-            Faixas Adultas
-          </button>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={() => handleChangeCategory("kids")}
+              className={`group relative overflow-hidden rounded-[1.75rem] border transition ${
+                category === "kids"
+                  ? "border-amber-400/70 bg-amber-400/10 shadow-[0_0_0_1px_rgba(251,191,36,0.15)]"
+                  : "border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]"
+              }`}
+            >
+              <div className="relative h-20 w-90 sm:h-48 m-auto">
+                <img
+                  src="/logo/kids-cat.png"
+                  alt="Faixas Kids"
+                  className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-black/40" />
+                <div className="absolute inset-0 flex items-end justify-between p-5">
+                  <div className="text-left">
+                    <div className="text-[11px] uppercase tracking-[0.28em] text-zinc-300">
+                      Linha
+                    </div>
+                    <div className="mt-1 font-serif text-2xl text-white"></div>
+                  </div>
+
+                  <div
+                    className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${
+                      category === "kids"
+                        ? "bg-amber-400 text-black"
+                        : "border border-white/20 bg-black/30 text-white"
+                    }`}
+                  >
+                    {category === "kids" ? "Ativa" : "Selecionar"}
+                  </div>
+                </div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleChangeCategory("adult")}
+              className={`group relative overflow-hidden rounded-[1.75rem] border transition ${
+                category === "adult"
+                  ? "border-amber-400/70 bg-amber-400/10 shadow-[0_0_0_1px_rgba(251,191,36,0.15)]"
+                  : "border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]"
+              }`}
+            >
+              <div className="relative h-28 w-full sm:h-48">
+                <img
+                  src="/logo/adulto-cat.png"
+                  alt="Faixas Adultas"
+                  className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-black/40" />
+                <div className="absolute inset-0 flex items-end justify-between p-5">
+                  <div className="text-left">
+                    <div className="text-[11px] uppercase tracking-[0.28em] text-zinc-300">
+                      Linha
+                    </div>
+                    <div className="mt-1 font-serif text-2xl text-white"></div>
+                  </div>
+
+                  <div
+                    className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${
+                      category === "adult"
+                        ? "bg-amber-400 text-black"
+                        : "border border-white/20 bg-black/30 text-white"
+                    }`}
+                  >
+                    {category === "adult" ? "Ativa" : "Selecionar"}
+                  </div>
+                </div>
+              </div>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -243,14 +346,45 @@ export default function Home() {
         belts={belts}
         selectedBelt={selectedBelt}
         category={category}
-        onSelectBelt={(belt) => {
-          setSelectedBelt(belt);
-          setSelectedStripes(0);
-        }}
+        onSelectBelt={handleSelectBelt}
       />
 
+      {showKidsVariantSelector && (
+        <section className="px-6 pb-2 lg:px-10">
+          <div className="mx-auto max-w-7xl rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-6">
+            <div className="mb-3 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-amber-400">
+              <span className="h-px w-8 bg-amber-400" />
+              Variação da faixa kids
+            </div>
+
+            <h3 className="font-serif text-2xl text-white">
+              Escolha a combinação da faixa {selectedBelt.name.toLowerCase()}
+            </h3>
+
+            <div className="mt-5 flex flex-wrap gap-3">
+              {kidsVariants.map((variant) => (
+                <button
+                  key={variant.id}
+                  type="button"
+                  onClick={() => setSelectedKidsVariant(variant.id)}
+                  className={`rounded-full border px-4 py-2 text-sm transition ${
+                    selectedKidsVariant === variant.id
+                      ? "border-amber-400 bg-amber-400/10 text-amber-300"
+                      : "border-white/10 bg-white/5 text-zinc-300 hover:border-white/20"
+                  }`}
+                >
+                  {variant.id === "solid"
+                    ? selectedBelt.name
+                    : `${selectedBelt.name} e ${variant.label}`}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <BeltConfigurator
-        selectedBelt={selectedBelt}
+        selectedBelt={displayBelt}
         sizes={sizes}
         selectedSize={selectedSize}
         onSelectSize={setSelectedSize}
@@ -269,30 +403,6 @@ export default function Home() {
         embroideryExtra={embroideryExtra}
         total={total}
         onAddToCart={handleAddToCart}
-      />
-
-      <CartDrawer
-        open={cartOpen}
-        onClose={() => setCartOpen(false)}
-        items={items}
-        cartCount={cartCount}
-        cartTotal={cartTotal}
-        onRemoveItem={removeItem}
-        onCheckout={() => {
-          setCartOpen(false);
-          setCheckoutOpen(true);
-        }}
-      />
-
-      <CheckoutModal
-        open={checkoutOpen}
-        onClose={() => setCheckoutOpen(false)}
-        items={items}
-        total={cartTotal}
-        onSuccess={() => {
-          clearCart();
-          setCheckoutOpen(false);
-        }}
       />
 
       <section
@@ -366,13 +476,13 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Acessar site da Dev Lab"
-                className="footer-dev-link w-20 h-10 ml-2"
+                className="footer-dev-link ml-2 h-10 w-20"
               >
                 <span>Site desenvolvido por:</span>
                 <img
-                  src="logo/devlab-black-rb.png"
+                  src="/logo/devlab-black-rb.png"
                   alt="Dev Lab"
-                  className="footer-dev-logo max-w-30 h-10 align-center object-contain"
+                  className="footer-dev-logo h-10 max-w-30 object-contain align-center"
                 />
               </a>
             </p>
@@ -390,6 +500,30 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        items={items}
+        cartCount={cartCount}
+        cartTotal={cartTotal}
+        onRemoveItem={removeItem}
+        onCheckout={() => {
+          setCartOpen(false);
+          setCheckoutOpen(true);
+        }}
+      />
+
+      <CheckoutModal
+        open={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+        items={items}
+        total={cartTotal}
+        onSuccess={() => {
+          clearCart();
+          setCheckoutOpen(false);
+        }}
+      />
     </div>
   );
 }
