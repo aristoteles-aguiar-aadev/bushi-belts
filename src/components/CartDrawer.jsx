@@ -1,4 +1,4 @@
-import { ShoppingBag, X } from "lucide-react";
+import { ShoppingCart, X } from "lucide-react";
 
 function BeltBar({ belt, stripes = 0, embroideryColor = "#D4A832" }) {
   return (
@@ -45,7 +45,7 @@ export default function CartDrawer({
       <div className="ml-auto flex h-full w-full max-w-xl flex-col border-l border-white/10 bg-neutral-950">
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
           <div>
-            <div className="font-serif text-2xl text-white">Carrinho</div>
+            <div className="font-serif text-2xl text-white">Seu carrinho</div>
             <div className="text-sm text-zinc-500">{cartCount} item(ns)</div>
           </div>
           <button
@@ -59,7 +59,7 @@ export default function CartDrawer({
         <div className="flex-1 overflow-auto px-6 py-5">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
-              <ShoppingBag className="h-12 w-12 text-zinc-700" />
+              <ShoppingCart className="h-20 w-20 text-amber-400" />
               <div className="mt-4 font-serif text-2xl text-white">
                 Seu carrinho está vazio
               </div>

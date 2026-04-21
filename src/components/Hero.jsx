@@ -4,6 +4,7 @@ import {
   ShieldCheck,
   Star,
   Medal,
+  ShoppingCart,
 } from "lucide-react";
 
 function BeltBar({
@@ -51,28 +52,37 @@ export default function Hero({
               武
             </div> */}
             <div>
-              <div className="header-logo m-0 flex items-center gap-3">
+              <div className="header-logo m-0 relative items-center gap-2">
                 <img
-                  src="/logo/bushi-belts.png"
+                  src="/logo/bushi2.png"
                   alt="Bushi Belts"
-                  className="h-48 w-48"
+                  className="h-20 w-auto object-contain mb-0"
                 />
               </div>
-              <div className="text-[10px] m-auto items-center uppercase tracking-[0.35em] text-zinc-400">
+              <div className="text-[11px] uppercase tracking-[0.35em] text-zinc-400 -mt-5 -ml-6">
                 Faixas artesanais premium
               </div>
             </div>
           </div>
 
           <nav className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
-            <a href="#colecao" className="transition hover:text-amber-400">
-              Coleção
+            <a
+              href="#colecao"
+              className="text-[11px] uppercase tracking-[0.35em] text-zinc-400 transition hover:text-amber-400"
+            >
+              COLEÇÃO
             </a>
-            <a href="#personalizar" className="transition hover:text-amber-400">
-              Personalizar
+            <a
+              href="#personalizar"
+              className="text-[11px] uppercase tracking-[0.35em] text-zinc-400 transition hover:text-amber-400"
+            >
+              PERSONALIZAR
             </a>
-            <a href="#diferenciais" className="transition hover:text-amber-400">
-              Diferenciais
+            <a
+              href="#diferenciais"
+              className="text-[11px] uppercase tracking-[0.35em] text-zinc-400 transition hover:text-amber-400"
+            >
+              DIFERENCIAIS
             </a>
           </nav>
 
@@ -80,8 +90,8 @@ export default function Hero({
             onClick={onOpenCart}
             className="inline-flex items-center gap-2 rounded-full border border-amber-400/40 px-4 py-2 text-sm font-medium text-amber-300 transition hover:bg-amber-400 hover:text-black"
           >
-            <ShoppingBag className="h-4 w-4" />
-            Carrinho
+            <ShoppingCart className="h-6 w-6 " />
+            Seu carrinho
             {cartCount > 0 && (
               <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[11px] font-bold text-white">
                 {cartCount}

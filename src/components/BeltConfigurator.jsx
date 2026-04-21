@@ -1,4 +1,4 @@
-import { Minus, Plus, ShoppingBag } from "lucide-react";
+import { Minus, Plus, ShoppingBag, ShoppingCart } from "lucide-react";
 
 function BeltBar({
   belt,
@@ -109,30 +109,30 @@ export default function BeltConfigurator({
             <div className="grid gap-5 md:grid-cols-2">
               <div>
                 <label className="mb-3 block text-xs uppercase tracking-[0.28em] text-zinc-500">
-                  Nome bordado
+                  Bordado 1
                 </label>
                 <input
                   value={name}
                   onChange={(event) =>
                     onChangeName(event.target.value.slice(0, 22))
                   }
-                  placeholder="Ex: Aristoteles"
+                  placeholder="Ex: Seu Nome"
                   className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-amber-400"
                 />
                 <div className="mt-2 text-xs text-zinc-500">
-                  Opcional. Acréscimo de {currency(15)}.
+                  Opcional. Acréscimo de {currency(20)}.
                 </div>
               </div>
               <div>
                 <label className="mb-3 block text-xs uppercase tracking-[0.28em] text-zinc-500">
-                  Academia / equipe
+                  Bordado 2
                 </label>
                 <input
                   value={academy}
                   onChange={(event) =>
                     onChangeAcademy(event.target.value.slice(0, 28))
                   }
-                  placeholder="Ex: Bushi Team"
+                  placeholder="Ex: Academia / Equipe "
                   className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-amber-400"
                 />
               </div>
@@ -255,7 +255,7 @@ export default function BeltConfigurator({
               className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-6 py-3 font-semibold text-black transition hover:bg-amber-300"
             >
               Adicionar
-              <ShoppingBag className="h-4 w-4" />
+              <ShoppingCart className="h-6 w-6" />
             </button>
           </div>
         </div>
