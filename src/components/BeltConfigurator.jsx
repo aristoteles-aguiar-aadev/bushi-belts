@@ -1,4 +1,4 @@
-import { Minus, Plus, ShoppingBag, ShoppingCart } from "lucide-react";
+import { Minus, Plus, ShoppingCart } from "lucide-react";
 
 function BeltBar({
   belt,

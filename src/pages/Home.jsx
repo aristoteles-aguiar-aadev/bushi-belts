@@ -453,49 +453,54 @@ export default function Home() {
       </section>
 
       <footer className="border-t border-white/10 px-6 py-10 text-sm text-zinc-500 lg:px-10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <div className="header-logo mb-2 flex items-center gap-3">
-              <img
-                src="/logo/bushi2.png"
-                alt="Bushi Belts"
-                className="h-25 w-20 object-contain"
-              />
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col items-center gap-8 text-center lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6">
+            {/* Esquerda - Bushi */}
+            <div className="flex flex-col items-center gap-3 lg:items-start lg:text-left">
+              <div className="header-logo">
+                <img
+                  src="/logo/bushi2.png"
+                  alt="Bushi Belts"
+                  className="h-10 w-auto object-contain tems-center"
+                />
+              </div>
+
+              <p className="max-w-xs text-sm leading-relaxed text-zinc-500">
+                Faixas artesanais para quem leva a jornada a sério.
+              </p>
             </div>
-            <div className="mt-1">
-              Faixas artesanais para quem leva a jornada a sério.
+
+            {/* Centro - Copyright */}
+            <div className="flex items-center justify-center">
+              <p className="text-sm leading-relaxed text-zinc-500">
+                © 2026 Bushi Belts. Todos os direitos reservados.
+              </p>
             </div>
-          </div>
-          <div className="footer-center">
-            <p className="footer-copy">
-              © 2026 Bushi Belts. Todos os direitos reservados.
-            </p>
-            <p className="footer-dev">
+
+            {/* Direita - Devlab */}
+            <div className="flex flex-col items-center gap-3 lg:items-end lg:text-right">
               <a
                 href="https://devlabdigital.com.br"
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Acessar site da Dev Lab"
-                className="footer-dev-link ml-2 h-10 w-20"
+                className="flex flex-col items-center gap-2 lg:items-end"
               >
-                <span>Site desenvolvido por:</span>
+                <span className="text-xs text-zinc-500">
+                  Site desenvolvido por:
+                </span>
+
                 <img
                   src="/logo/devlab-black-rb.png"
                   alt="Dev Lab"
-                  className="footer-dev-logo h-10 max-w-30 object-contain align-center"
+                  className="h-10 w-auto object-contain"
                 />
               </a>
-            </p>
-            <div
-              className="footer-dev-link"
-              style={{
-                fontSize: "0.7rem",
-                color: "var(--text-muted)",
-                margin: 0,
-              }}
-            >
-              Criação de sites profissionais para empresas que querem vender
-              mais
+
+              <p className="max-w-xs text-sm leading-relaxed text-zinc-500">
+                Criação de sites profissionais para empresas que querem vender
+                mais
+              </p>
             </div>
           </div>
         </div>

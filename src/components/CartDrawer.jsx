@@ -1,4 +1,4 @@
-import { ShoppingCart, X } from "lucide-react";
+import { ShoppingCart, CreditCard, X } from "lucide-react";
 
 function BeltBar({ belt, stripes = 0, embroideryColor = "#D4A832" }) {
   return (
