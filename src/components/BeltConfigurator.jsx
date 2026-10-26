@@ -1,37 +1,8 @@
+import BeltPreview from "./BeltPreview";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 
-function BeltBar({
-  belt,
-  stripes = 0,
-  embroideryColor = "#D4A832",
-  large = false,
-}) {
-  return (
-    <div
-      className={`relative overflow-hidden rounded-sm border border-white/10 ${large ? "h-8" : "h-4"}`}
-      style={{
-        background: `linear-gradient(90deg, ${belt.color}, ${belt.accent})`,
-      }}
-    >
-      <div className="absolute right-0 top-0 h-full w-[18%] bg-black/40" />
-      <div className="absolute left-3 top-1/2 flex -translate-y-1/2 gap-1">
-        {Array.from({ length: stripes }).map((_, index) => (
-          <span
-            key={index}
-            className={`rounded-[1px] ${large ? "h-5 w-1.5" : "h-3 w-1"}`}
-            style={{ backgroundColor: embroideryColor.hex || embroideryColor }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function currency(value) {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(value);
+  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
 }
 
 export default function BeltConfigurator({
@@ -57,27 +28,35 @@ export default function BeltConfigurator({
 }) {
   return (
     <section id="personalizar" className="px-6 py-16 lg:px-10">
-      <div className="mx-auto grid max-w-7xl gap-8 xl:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6 lg:p-8">
-          <div className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-amber-400">
-            <span className="h-px w-8 bg-amber-400" />
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-10">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-apple-accent mb-3">
             Personalização
           </div>
-          <h3 className="font-serif text-3xl text-white">
-            Monte uma faixa que pareça feita para você.
-          </h3>
+          <h2 className="text-4xl font-semibold tracking-tight text-apple-text">
+            Sua história. Sua assinatura.
+          </h2>
+          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-apple-secondary">
+            Escolha o tamanho, graus e adicione seu nome bordado.
+          </p>
+        </div>
 
-          <div className="mt-8 space-y-8">
+        <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-8">
             <div>
-              <label className="mb-3 block text-xs uppercase tracking-[0.28em] text-zinc-500">
+              <label className="mb-3 block text-[13px] font-medium text-apple-secondary">
                 Tamanho
               </label>
               <div className="flex flex-wrap gap-2">
                 {sizes.map((size) => (
                   <button
                     key={size}
-                    onClick={() => onSelectSize(size)}
-                    className={`rounded-full border px-4 py-2 text-sm transition ${selectedSize === size ? "border-amber-400 bg-amber-400 text-black" : "border-white/10 bg-white/5 text-zinc-300 hover:border-white/20"}`}
+                    aria-pressed={selectedSize === size} onClick={() => onSelectSize(size)}
+                    className={`rounded-full px-4 py-2 text-[13px] font-medium transition-all duration-200 ${
+                      selectedSize === size
+                        ? "bg-apple-accent text-black"
+                        : "border border-apple-separator bg-apple-surface text-apple-secondary hover:border-apple-separator-strong hover:text-apple-text"
+                    }`}
                   >
                     {size}
                   </button>
@@ -87,59 +66,57 @@ export default function BeltConfigurator({
 
             {selectedBelt.maxStripes > 0 && (
               <div>
-                <label className="mb-3 block text-xs uppercase tracking-[0.28em] text-zinc-500">
+                <label className="mb-3 block text-[13px] font-medium text-apple-secondary">
                   Graus
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {Array.from({ length: selectedBelt.maxStripes + 1 }).map(
-                    (_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => onSelectStripes(index)}
-                        className={`rounded-full border px-4 py-2 text-sm transition ${selectedStripes === index ? "border-amber-400 bg-amber-400/10 text-amber-300" : "border-white/10 bg-white/5 text-zinc-300 hover:border-white/20"}`}
-                      >
-                        {index === 0 ? "Sem grau" : `${index}º grau`}
-                      </button>
-                    ),
-                  )}
+                  {Array.from({ length: selectedBelt.maxStripes + 1 }).map((_, index) => (
+                    <button
+                      key={index}
+                      aria-pressed={selectedStripes === index} onClick={() => onSelectStripes(index)}
+                      className={`rounded-full px-4 py-2 text-[13px] font-medium transition-all duration-200 ${
+                        selectedStripes === index
+                          ? "bg-apple-accent-subtle border border-apple-accent-border text-apple-accent"
+                          : "border border-apple-separator bg-apple-surface text-apple-secondary hover:border-apple-separator-strong hover:text-apple-text"
+                      }`}
+                    >
+                      {index === 0 ? "Sem grau" : `${index}º grau`}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
 
             <div className="grid gap-5 md:grid-cols-2">
               <div>
-                <label className="mb-3 block text-xs uppercase tracking-[0.28em] text-zinc-500">
-                  Bordado 1
+                <label className="mb-3 block text-[13px] font-medium text-apple-secondary">
+                  Bordado 1 — Nome
                 </label>
                 <input
-                  value={name}
-                  onChange={(event) =>
-                    onChangeName(event.target.value.slice(0, 22))
-                  }
+                  aria-label="Nome para bordar" value={name}
+                  onChange={(event) => onChangeName(event.target.value.slice(0, 22))}
                   placeholder="Ex: Seu Nome"
-                  className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-amber-400"
+                  className="w-full rounded-xl border border-apple-separator bg-apple-surface px-4 py-3 text-[15px] text-apple-text outline-none transition-all placeholder:text-apple-tertiary focus:border-apple-accent-border focus:ring-1 focus:ring-apple-accent/20"
                 />
-                <div className="mt-2 text-xs text-zinc-500">
-                  Opcional. Acréscimo de {currency(20)}.
+                <div className="mt-2 text-[12px] text-apple-tertiary">
+                  Opcional. Acréscimo de {currency(15)}.
                 </div>
               </div>
               <div>
-                <label className="mb-3 block text-xs uppercase tracking-[0.28em] text-zinc-500">
-                  Bordado 2
+                <label className="mb-3 block text-[13px] font-medium text-apple-secondary">
+                  Bordado 2 — Academia
                 </label>
                 <input
-                  value={academy}
-                  onChange={(event) =>
-                    onChangeAcademy(event.target.value.slice(0, 28))
-                  }
-                  placeholder="Ex: Academia / Equipe "
-                  className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-amber-400"
+                  aria-label="Academia para bordar" value={academy}
+                  onChange={(event) => onChangeAcademy(event.target.value.slice(0, 28))}
+                  placeholder="Ex: Academia / Equipe"
+                  className="w-full rounded-xl border border-apple-separator bg-apple-surface px-4 py-3 text-[15px] text-apple-text outline-none transition-all placeholder:text-apple-tertiary focus:border-apple-accent-border focus:ring-1 focus:ring-apple-accent/20"
                 />
               </div>
             </div>
 
             <div>
-              <label className="mb-3 block text-xs uppercase tracking-[0.28em] text-zinc-500">
+              <label className="mb-3 block text-[13px] font-medium text-apple-secondary">
                 Cor do bordado
               </label>
               <div className="flex flex-wrap gap-3">
@@ -147,116 +124,101 @@ export default function BeltConfigurator({
                   <button
                     key={color.id}
                     onClick={() => onSelectThreadColor(color)}
-                    className={`h-10 w-10 rounded-full border-2 transition ${threadColor.id === color.id ? "scale-110 border-amber-400" : "border-white/10"}`}
+                    className={`h-9 w-9 rounded-full transition-all duration-200 ${
+                      threadColor.id === color.id
+                        ? "scale-110 ring-2 ring-apple-accent ring-offset-2 ring-offset-black"
+                        : "hover:scale-105"
+                    }`}
                     style={{ backgroundColor: color.hex }}
-                    title={color.name}
+                    aria-label={color.name} aria-pressed={threadColor.id === color.id} title={color.name}
                   />
                 ))}
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.02] p-6 lg:p-8">
-          <div className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-amber-400">
-            <span className="h-px w-8 bg-amber-400" />
-            Resumo do pedido
-          </div>
-
-          <div className="rounded-[1.5rem] border border-white/10 bg-black/25 p-5">
-            <BeltBar
-              belt={selectedBelt}
-              stripes={selectedStripes}
-              embroideryColor={threadColor}
-              large
-            />
-            <div
-              className="mt-5 font-serif text-2xl"
-              style={{ color: threadColor.hex }}
-            >
-              {name || selectedBelt.name}
-            </div>
-            <div className="mt-1 text-sm text-zinc-400">
-              {academy || selectedBelt.tagline}
-            </div>
-          </div>
-
-          <div className="mt-6 space-y-4 text-sm">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <span className="text-zinc-400">Faixa</span>
-              <span className="font-medium text-white">
-                {selectedBelt.name}
-              </span>
-            </div>
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <span className="text-zinc-400">Tamanho</span>
-              <span className="font-medium text-white">{selectedSize}</span>
-            </div>
-            {selectedBelt.maxStripes > 0 && (
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <span className="text-zinc-400">Graus</span>
-                <span className="font-medium text-white">
-                  {selectedStripes === 0
-                    ? "Sem grau"
-                    : `${selectedStripes}º grau`}
-                </span>
+          <div className="rounded-2xl border border-apple-separator bg-apple-surface p-6 xl:sticky xl:top-24">
+            <div className="mb-6">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-apple-tertiary mb-4">
+                Resumo
               </div>
-            )}
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <span className="text-zinc-400">Preço base</span>
-              <span className="font-medium text-white">
-                {currency(selectedBelt.price)}
-              </span>
-            </div>
-            {embroideryExtra > 0 && (
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <span className="text-zinc-400">Nome bordado</span>
-                <span className="font-medium text-white">
-                  {currency(embroideryExtra)}
-                </span>
-              </div>
-            )}
-          </div>
 
-          <div className="mt-6 flex items-center justify-between">
-            <span className="text-xs uppercase tracking-[0.28em] text-zinc-500">
-              Quantidade
-            </span>
-            <div className="flex items-center gap-3">
+              <div className="rounded-xl border border-apple-separator bg-black/40 p-5 mb-6">
+                <div className="config-preview"><BeltPreview belt={selectedBelt} stripes={selectedStripes} color={threadColor.hex} name={name} academy={academy}/></div><p className="preview-note">Prévia ilustrativa · Textura e bordado podem variar.</p>
+                <div className="mt-4 text-xl font-medium" style={{ color: threadColor.hex }}>
+                  {name || selectedBelt.name}
+                </div>
+                <div className="mt-1 text-[13px] text-apple-secondary">
+                  {academy || selectedBelt.tagline}
+                </div>
+              </div>
+
+              <div className="space-y-3 text-[13px]">
+                <div className="flex justify-between">
+                  <span className="text-apple-secondary">Faixa</span>
+                  <span className="text-apple-text font-medium">{selectedBelt.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-apple-secondary">Tamanho</span>
+                  <span className="text-apple-text font-medium">{selectedSize}</span>
+                </div>
+                {selectedBelt.maxStripes > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-apple-secondary">Graus</span>
+                    <span className="text-apple-text font-medium">
+                      {selectedStripes === 0 ? "Sem grau" : `${selectedStripes}º grau`}
+                    </span>
+                  </div>
+                )}
+                <div className="flex justify-between pt-3 border-t border-apple-separator">
+                  <span className="text-apple-secondary">Preço base</span>
+                  <span className="text-apple-text font-medium">{currency(selectedBelt.price)}</span>
+                </div>
+                {embroideryExtra > 0 && (
+                  <div className="flex justify-between">
+                    <span className="text-apple-secondary">Bordado</span>
+                    <span className="text-apple-text font-medium">{currency(embroideryExtra)}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between py-4 border-y border-apple-separator">
+              <span className="text-[13px] font-medium text-apple-secondary">Quantidade</span>
+              <div className="flex items-center gap-3">
+                <button
+                  aria-label="Diminuir quantidade" disabled={qty <= 1} onClick={onDecreaseQty}
+                  className="h-8 w-8 rounded-full border border-apple-separator flex items-center justify-center text-apple-secondary transition-all hover:border-apple-accent-border hover:text-apple-accent"
+                >
+                  <Minus className="h-3.5 w-3.5" />
+                </button>
+                <span className="w-8 text-center text-lg font-medium text-apple-text">{qty}</span>
+                <button
+                  aria-label="Aumentar quantidade" disabled={qty >= 99} onClick={onIncreaseQty}
+                  className="h-8 w-8 rounded-full border border-apple-separator flex items-center justify-center text-apple-secondary transition-all hover:border-apple-accent-border hover:text-apple-accent"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <div className="flex items-end justify-between mb-4">
+                <div>
+                  <div className="text-[11px] font-medium uppercase tracking-[0.15em] text-apple-tertiary mb-1">
+                    Total
+                  </div>
+                  <div className="text-3xl font-medium text-apple-accent">{currency(total)}</div>
+                </div>
+              </div>
               <button
-                onClick={onDecreaseQty}
-                className="rounded-full border border-white/10 p-2 text-zinc-300 transition hover:border-amber-400 hover:text-amber-300"
+                onClick={onAddToCart}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-apple-accent px-6 py-3.5 text-[15px] font-medium text-black transition-all hover:bg-apple-accent-hover active:scale-[0.98]"
               >
-                <Minus className="h-4 w-4" />
-              </button>
-              <span className="w-8 text-center font-serif text-2xl text-white">
-                {qty}
-              </span>
-              <button
-                onClick={onIncreaseQty}
-                className="rounded-full border border-white/10 p-2 text-zinc-300 transition hover:border-amber-400 hover:text-amber-300"
-              >
-                <Plus className="h-4 w-4" />
+                Adicionar ao carrinho
+                <ShoppingCart className="h-4 w-4" />
               </button>
             </div>
-          </div>
-
-          <div className="mt-8 flex items-end justify-between border-t border-white/10 pt-5">
-            <div>
-              <div className="text-xs uppercase tracking-[0.28em] text-zinc-500">
-                Total
-              </div>
-              <div className="mt-1 font-serif text-4xl text-amber-400">
-                {currency(total)}
-              </div>
-            </div>
-            <button
-              onClick={onAddToCart}
-              className="inline-flex items-center gap-2 rounded-full bg-amber-400 px-6 py-3 font-semibold text-black transition hover:bg-amber-300"
-            >
-              Adicionar
-              <ShoppingCart className="h-6 w-6" />
-            </button>
           </div>
         </div>
       </div>

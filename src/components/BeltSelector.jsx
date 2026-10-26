@@ -1,95 +1,66 @@
-import { CheckCircle2 } from "lucide-react";
+import BeltPreview from "./BeltPreview";
+import { Check } from "lucide-react";
 
-function BeltBar({ belt }) {
-  return (
-    <div
-      className="relative h-4 overflow-hidden rounded-sm border border-white/10"
-      style={{
-        background: `linear-gradient(90deg, ${belt.color}, ${belt.accent})`,
-      }}
-    >
-      <div className="absolute right-0 top-0 h-full w-[18%] bg-black/40" />
-    </div>
-  );
-}
 
-export default function BeltSelector({
-  belts,
-  selectedBelt,
-  onSelectBelt,
-  category,
-}) {
+export default function BeltSelector({ belts, selectedBelt, onSelectBelt, category }) {
   return (
-    <section
-      id="colecao"
-      className="border-y border-white/10 px-6 py-16 lg:px-10"
-    >
+    <section id="colecao" className="border-t border-apple-separator px-6 py-16 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-4 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.35em] text-amber-400">
-          <span className="h-px w-8 bg-amber-400" />
-          {category === "kids" ? "Coleção Kids" : "Coleção Adulta"}
-        </div>
-
-        <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <h2 className="font-serif text-4xl font-bold text-white sm:text-5xl">
-              {category === "kids"
-                ? "Escolha a faixa base da coleção kids."
-                : "Escolha a faixa que representa o seu momento."}
-            </h2>
+        <div className="mb-10">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-apple-accent mb-3">
+            {category === "kids" ? "Coleção Kids" : "Coleção Adulta"}
           </div>
-          <p className="max-w-xl text-base leading-7 text-zinc-400">
+          <h2 className="text-4xl font-semibold tracking-tight text-apple-text sm:text-5xl">
             {category === "kids"
-              ? "Depois da cor principal, você poderá selecionar a variação da faixa kids, exceto para a branca."
-              : "Cada graduação comunica uma fase da sua história. Criamos um catálogo visual e objetivo para o cliente identificar rapidamente sua faixa e sentir valor antes mesmo de comprar."}
+              ? "Escolha a faixa kids."
+              : "Escolha sua faixa."}
+          </h2>
+          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-apple-secondary">
+            {category === "kids"
+              ? "Depois da cor principal, você poderá selecionar a variação da faixa kids."
+              : "Cada graduação comunica uma fase da sua história."}
           </p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {belts.map((belt) => {
             const active = selectedBelt.id === belt.id;
 
             return (
               <button
                 key={belt.id}
-                onClick={() => onSelectBelt(belt)}
-                className={`group rounded-[1.75rem] border p-6 text-left transition ${
+                aria-pressed={active} onClick={() => onSelectBelt(belt)}
+                className={`group relative rounded-2xl border p-6 text-left transition-all duration-200 ${
                   active
-                    ? "border-amber-400/50 bg-amber-400/10"
-                    : "border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]"
+                    ? "border-apple-accent-border bg-apple-accent-subtle"
+                    : "border-apple-separator bg-apple-surface hover:border-apple-separator-strong"
                 }`}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="font-serif text-3xl text-white">
-                      {belt.name}
-                    </div>
-                    <div className="mt-1 text-xs uppercase tracking-[0.28em] text-zinc-500">
-                      {belt.level}
-                    </div>
+                {active && (
+                  <div className="absolute top-4 right-4 h-6 w-6 rounded-full bg-apple-accent flex items-center justify-center">
+                    <Check className="h-3.5 w-3.5 text-black" />
                   </div>
-                  {active && (
-                    <CheckCircle2 className="h-6 w-6 text-amber-400" />
-                  )}
+                )}
+
+                <div className="mb-4">
+                  <div className="text-xl font-medium text-apple-text">{belt.name}</div>
+                  <div className="text-[11px] font-medium uppercase tracking-[0.15em] text-apple-tertiary mt-1">
+                    {belt.level}
+                  </div>
                 </div>
 
-                <div className="mt-6">
-                  <BeltBar belt={belt} />
-                </div>
+                <div className="catalog-belt"><BeltPreview belt={active ? selectedBelt : belt}/></div>
 
-                <p className="mt-5 text-sm leading-7 text-zinc-400">
+                <p className="mt-4 text-[13px] leading-relaxed text-apple-secondary">
                   {belt.tagline}
                 </p>
 
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="font-serif text-2xl text-amber-400">
-                    {new Intl.NumberFormat("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    }).format(belt.price)}
+                <div className="mt-5 pt-4 border-t border-apple-separator flex items-center justify-between">
+                  <span className="text-xl font-medium text-apple-accent">
+                    {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(belt.price)}
                   </span>
-                  <span className="text-sm text-zinc-500 group-hover:text-zinc-300">
-                    Selecionar
+                  <span className={`text-[13px] font-medium transition-colors ${active ? "text-apple-accent" : "text-apple-tertiary group-hover:text-apple-secondary"}`}>
+                    {active ? "Selecionada" : "Selecionar"}
                   </span>
                 </div>
               </button>
